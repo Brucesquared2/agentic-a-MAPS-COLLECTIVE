@@ -190,3 +190,39 @@ Use the existing `verify-cockpit.yml` matrix workflow — it runs the verificati
 
 If you want these badges in your `README.md` instead of `docs`, tell me and I'll add them where you prefer.
 
+---
+
+## 🔮 Cockpit Verification Status (Matrix Workflow)
+
+The cockpit is continuously verified across **Windows** and **Ubuntu** runners.  
+Badges below reflect the current communal health of the ritual:
+
+```
+![Verify Cockpit Ritual](https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml/badge.svg)
+![Verify Cockpit Ritual — Windows](https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml/badge.svg?branch=main&job=verify&os=windows-latest)
+![Verify Cockpit Ritual — Ubuntu](https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml/badge.svg?branch=main&job=verify&os=ubuntu-latest)
+```
+
+---
+
+### 🧩 Matrix Workflow Summary
+- **Windows**: Uses `actions/setup-powershell` to ensure latest `pwsh`.  
+- **Ubuntu**: Installs PowerShell Core via apt, caches `.venv` for speed.  
+- **Secrets**: Exported OS‑specific (`bash` → `$GITHUB_ENV`, `pwsh` → `$env:`).  
+- **Cache**: `.venv` path hashed against `scripts/create_claude_venv.ps1` for reproducibility.  
+- **Verification**: Runs `scripts/verify_cockpit.ps1` to confirm alias + commit template health.
+
+---
+
+### 🔑 Security Notes
+- Add secrets in **Settings → Secrets and variables → Actions**:  
+  - `ANTHROPIC_API_KEY`  
+  - `GITHUB_TOKEN` (or PAT)  
+  - `GITLAB_TOKEN`  
+- Local mirrors: Credential Manager (Windows) or `~/.bashrc` (Linux/macOS).  
+- Cache invalidation: update `create_claude_venv.ps1` to refresh communal lineage.
+
+---
+
+✨ With this section, `cockpit-ritual.md` now narrates **badges + matrix workflow health** directly, making onboarding and verification visible in one glance.
+
