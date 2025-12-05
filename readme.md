@@ -16,6 +16,18 @@
   <a href="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml"><img alt="Verify — Ubuntu" src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml/badge.svg?branch=main&job=verify&os=ubuntu-latest" /></a>
 </p>
 
+<!-- Connectivity, Validator, PR, and Metrics badges -->
+<p>
+  <a href="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/check-connectivity.yml"><img alt="Connectivity Check" src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/check-connectivity.yml/badge.svg" /></a>
+  <a href="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml"><img alt="Manifest Validator" src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=push" /></a>
+  <a href="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml"><img alt="Risk Merge PR" src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=pull_request" /></a>
+  <a href="https://shields.io"><img alt="Manifest Validation Errors" src="https://img.shields.io/endpoint?url=https://your-metrics-endpoint/manifest_validation_errors_total.json" /></a>
+</p>
+
+| Connectivity | Validator | Risk Merge PR | Manifest Errors |
+|--------------|-----------|---------------|----------------|
+| <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/check-connectivity.yml/badge.svg" alt="Connectivity"/> | <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=push" alt="Validator"/> | <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=pull_request" alt="Risk Merge PR"/> | <img src="https://img.shields.io/endpoint?url=https://your-metrics-endpoint/manifest_validation_errors_total.json" alt="Manifest Errors"/> |
+
 # Agentic <!-- omit from toc -->
 
 You can think of Agentic as **RapidAPI for LLM tools**.
