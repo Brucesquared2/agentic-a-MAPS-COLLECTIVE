@@ -21,6 +21,6 @@ repos:
         pass_filenames: false
       - id: connectivity-check
         name: Connectivity Check (GitHub reachability)
-        entry: bash scripts/precommit_connectivity.sh
+        entry: bash scripts/connectivity_probe.sh
         language: system
         pass_filenames: false
