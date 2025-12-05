@@ -1,0 +1,37 @@
+name: Connectivity Check
+
+on:
+  workflow_call:
+    outputs:
+      ok:
+        description: 'Connectivity ok'
+        type: string
+
+jobs:
+  connectivity:
+    runs-on: ubuntu-latest
+    outputs:
+      ok: ${{ steps.probe.outputs.ok }}
+    steps:
+      - name: Ping + HTTP probe
+        id: probe
+        run: |
+          echo "🔍 Checking DNS + network connectivity to github.com..."
+          if ping -c 3 github.com && curl -I -sS https://github.com; then
+            echo "ok=true" >> $GITHUB_OUTPUT
+          else
+            echo "ok=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Connectivity failed — downstream jobs should skip"
+            exit 0
+          fi
+
+      - name: Authenticated API reachability
+        if: ${{ secrets.REPO_WRITE_TOKEN != '' && steps.probe.outputs.ok == 'true' }}
+        run: |
+          echo "🔍 Checking GitHub API with token..."
+          if curl -sS -H "Authorization: token ${{ secrets.REPO_WRITE_TOKEN }}" https://api.github.com/user > /dev/null; then
+            echo "Authenticated API OK"
+          else
+            echo "❌ Authenticated API call failed — check REPO_WRITE_TOKEN" >&2
+            exit 1
+          fi
