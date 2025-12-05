@@ -26,7 +26,7 @@
 
 | Connectivity | Validator | Risk Merge PR | Manifest Errors |
 |--------------|-----------|---------------|----------------|
-| <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/check-connectivity.yml/badge.svg" alt="Connectivity"/> | <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=push" alt="Validator"/> | <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=pull_request" alt="Risk Merge PR"/> | <img src="https://img.shields.io/endpoint?url=https://your-metrics-endpoint/manifest_validation_errors_total.json" alt="Manifest Errors"/> |
+| [<img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/check-connectivity.yml/badge.svg" alt="Connectivity"/>](https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/check-connectivity.yml) | [<img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=push" alt="Validator"/>](https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml) | [<img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=pull_request" alt="Risk Merge PR"/>](https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml) | [<img src="https://img.shields.io/endpoint?url=https://your-metrics-endpoint/manifest_validation_errors_total.json" alt="Manifest Errors"/>](https://your-metrics-endpoint/manifest_validation_errors_total.json) |
 
 ## 🛠️ Troubleshooting Rituals
 

@@ -226,3 +226,28 @@ Badges below reflect the current communal health of the ritual:
 
 ✨ With this section, `cockpit-ritual.md` now narrates **badges + matrix workflow health** directly, making onboarding and verification visible in one glance.
 
+---
+
+## 🛠️ Troubleshooting Rituals
+
+When a badge goes red, follow the ritual below:
+
+| Badge | Meaning | Ritual Fix |
+|-------|---------|------------|
+| Connectivity | Runner cannot reach GitHub (DNS/HTTP) or token invalid | Run `make connectivity-check` locally. If it fails, fix DNS/proxy. Verify `REPO_WRITE_TOKEN` secret in GitHub. |
+| Validator | Manifest schema or unit tests failed | Run `make validate` locally. Fix YAML errors or failing pytest cases before pushing. |
+| Risk Merge PR | Auto-merge into `risk.yml` or PR creation failed | Check validator and connectivity logs first. If both are green, verify `REPO_WRITE_TOKEN` has correct repo scope. |
+| Ledger Rotation | Token/secret rotation workflow failed | Confirm rotation secrets are valid and not expired. Update GitHub secrets if needed. |
+| Manifest Errors (Grafana) | Live Prometheus metric shows validation errors | Inspect dashboards. Run `make validate` locally to reproduce. Fix manifests until metric count drops. |
+
+---
+
+## ⚡ Quick Spells (One-liners)
+
+| Action | Command |
+|--------|---------|
+| Run connectivity probe | `make connectivity-check` |
+| Validate manifests + tests | `make validate` |
+| Run risk merge locally | `make merge-risk` |
+
+
