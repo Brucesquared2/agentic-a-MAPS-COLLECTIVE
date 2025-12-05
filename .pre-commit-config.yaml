@@ -1,0 +1,26 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: validate-manifests
+        name: Validate indicator manifests
+        entry: python scripts/validate_manifest.py
+        language: system
+        types: [yaml]
+        files: ^indicators/.*/manifest\.yml$
+      - id: test-validator
+        name: Run validator unit tests
+        entry: pytest -q tests/test_validate_manifest.py
+        language: system
+        pass_filenames: false
+      - id: connectivity-check
+        name: Connectivity Check (GitHub reachability)
+        entry: bash scripts/precommit_connectivity.sh
+        language: system
+        pass_filenames: false
