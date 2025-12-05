@@ -28,6 +28,25 @@
 |--------------|-----------|---------------|----------------|
 | <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/check-connectivity.yml/badge.svg" alt="Connectivity"/> | <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=push" alt="Validator"/> | <img src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/risk-merge-combined.yml/badge.svg?event=pull_request" alt="Risk Merge PR"/> | <img src="https://img.shields.io/endpoint?url=https://your-metrics-endpoint/manifest_validation_errors_total.json" alt="Manifest Errors"/> |
 
+## 🛠️ Troubleshooting Rituals
+
+When a badge goes red, follow the ritual below:
+
+| Badge | Meaning | Ritual Fix |
+|-------|---------|------------|
+| Connectivity | Runner cannot reach GitHub (DNS/HTTP) or token invalid | Run `make connectivity-check` locally. If it fails, fix DNS/proxy. Verify `REPO_WRITE_TOKEN` secret in GitHub. |
+| Validator | Manifest schema or unit tests failed | Run `make validate` locally. Fix YAML errors or failing pytest cases before pushing. |
+| Risk Merge PR | Auto-merge into `risk.yml` or PR creation failed | Check validator and connectivity logs first. If both are green, verify `REPO_WRITE_TOKEN` has correct repo scope. |
+| Ledger Rotation | Token/secret rotation workflow failed | Confirm rotation secrets are valid and not expired. Update GitHub secrets if needed. |
+| Manifest Errors (Grafana) | Live Prometheus metric shows validation errors | Inspect dashboards. Run `make validate` locally to reproduce. Fix manifests until metric count drops. |
+
+✅ Outcome
+Contributors see exact fixes tied to each badge.
+
+No more guessing whether failures are network, validation, or secrets.
+
+README becomes a cockpit manual: health signals + remedies in one place.
+
 # Agentic <!-- omit from toc -->
 
 You can think of Agentic as **RapidAPI for LLM tools**.
