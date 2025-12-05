@@ -33,37 +33,30 @@ jobs:
           sudo apt-get install -y powershell
         shell: bash
 
-      - name: Export secrets to environment
+
+      - name: Cache claude venv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: ${{ runner.os }}-claude-venv-${{ hashFiles('scripts/create_claude_venv.ps1') }}
+          restore-keys: |
+            ${{ runner.os }}-claude-venv-
+
+      - name: Export secrets to environment (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
         run: |
           echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" >> $GITHUB_ENV
           echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
           echo "GITLAB_TOKEN=${{ secrets.GITLAB_TOKEN }}" >> $GITHUB_ENV
         shell: bash
 
-      - name: Bootstrap Claude venv
-        run: pwsh -File scripts/create_claude_venv.ps1
-        shell: pwsh
-
-      - name: Run Cockpit Verification
-        run: pwsh -File scripts/verify_cockpit.ps1
-        shell: pwsh
-
-  verify-linux:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install PowerShell Core
+      - name: Export secrets to environment (Windows)
+        if: matrix.os == 'windows-latest'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget apt-transport-https software-properties-common
-          wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
-          sudo dpkg -i packages-microsoft-prod.deb
-          sudo apt-get update
-          sudo apt-get install -y powershell
-        shell: bash
+          Add-Content -Path $env:GITHUB_ENV -Value "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}"
+          Add-Content -Path $env:GITHUB_ENV -Value "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+          Add-Content -Path $env:GITHUB_ENV -Value "GITLAB_TOKEN=${{ secrets.GITLAB_TOKEN }}"
+        shell: pwsh
 
       - name: Bootstrap Claude venv
         run: pwsh -File scripts/create_claude_venv.ps1
@@ -72,3 +65,5 @@ jobs:
       - name: Run Cockpit Verification
         run: pwsh -File scripts/verify_cockpit.ps1
         shell: pwsh
+
+# Removed duplicate verify-linux job (matrix covers Windows + Ubuntu)

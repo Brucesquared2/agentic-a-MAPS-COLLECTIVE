@@ -9,6 +9,13 @@
   <a href="https://prettier.io"><img alt="Prettier Code Formatting" src="https://img.shields.io/badge/code_style-prettier-brightgreen.svg" /></a>
 </p>
 
+<!-- Cockpit verification badges -->
+<p>
+  <a href="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml"><img alt="Verify Cockpit Ritual" src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml/badge.svg" /></a>
+  <a href="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml"><img alt="Verify — Windows" src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml/badge.svg?branch=main&job=verify&os=windows-latest" /></a>
+  <a href="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml"><img alt="Verify — Ubuntu" src="https://github.com/Brucesquared2/agentic-a-MAPS-COLLECTIVE/actions/workflows/verify-cockpit.yml/badge.svg?branch=main&job=verify&os=ubuntu-latest" /></a>
+</p>
+
 # Agentic <!-- omit from toc -->
 
 You can think of Agentic as **RapidAPI for LLM tools**.
