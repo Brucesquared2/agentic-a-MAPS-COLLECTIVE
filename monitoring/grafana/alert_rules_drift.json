@@ -1,0 +1,47 @@
+{
+  "apiVersion": 1,
+  "groups": [
+    {
+      "name": "cockpit-drift-alerts",
+      "interval": "1m",
+      "rules": [
+        {
+          "alert": "CompletedTasksDrift",
+          "expr": "abs(cockpit_completed_tasks - cockpit_completed_tasks_ledger) > 10",
+          "for": "5m",
+          "labels": {
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Drift detected in completed tasks",
+            "description": "Live completed_tasks differs from ledger replay by more than 10 for 5 minutes."
+          }
+        },
+        {
+          "alert": "RotationsDrift",
+          "expr": "abs(cockpit_rotations - cockpit_rotations_ledger) > 5",
+          "for": "5m",
+          "labels": {
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Drift detected in rotations",
+            "description": "Live rotations differs from ledger replay by more than 5 for 5 minutes."
+          }
+        },
+        {
+          "alert": "AssignmentsDrift",
+          "expr": "abs(cockpit_active_assignments - cockpit_assignments_ledger) > 3",
+          "for": "5m",
+          "labels": {
+            "severity": "critical"
+          },
+          "annotations": {
+            "summary": "Drift detected in assignments",
+            "description": "Active assignments differ from ledger replay by more than 3 for 5 minutes."
+          }
+        }
+      ]
+    }
+  ]
+}

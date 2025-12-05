@@ -70,3 +70,82 @@ Anyone can publish their own live MCP products with Agentic, but you'll need to 
 **Agentic is proudly 100% open source.**
 
 Interested in contributing or building Agentic from scratch? See [contributing.md](./contributing.md).
+
+## Secrets & Environment Files
+
+⚠️ Do not commit a `.env` file containing secrets. Use the provided `.env.sample` as a reference and copy it to `.env` locally.
+
+Example:
+
+```powershell
+copy .env.sample .env
+```
+
+This repository's CI and Docker Compose read `LEDGER_PATH` and `CLAUDE_API_KEY` from environment variables. Keep secrets out of the git history.
+
+## Claude Runner Sidecar
+
+We run the Claude capsule (`claude_capsule`) alongside a Node.js sidecar (`claude_runner`) that dispatches project plans and forwards assignment events to the cockpit UI.
+
+1. Start services
+
+```bash
+docker compose up -d claude_capsule claude_runner web
+```
+
+2. Environment setup
+
+Make sure your `.env` file includes:
+
+```env
+CLAUDE_API_KEY=your_claude_api_key
+CLAUDE_PLAN=/app/configs/project-plan.yaml
+COCKPIT_PUBLISH_URL=http://web:3000/api/cockpit/publish
+COCKPIT_PUBLISH_TOKEN=supersecret123
+LEDGER_PATH=/app/logs/key_log.yml
+```
+
+`COCKPIT_PUBLISH_TOKEN` must match the secret configured in the publish route.
+
+3. Verify publish flow
+
+```bash
+curl -X POST http://localhost:3000/api/cockpit/publish \
+  -H "Content-Type: application/json" \
+  -H "x-publish-token: supersecret123" \
+  -d '{"agent":"claude","action":"task_assigned","notes":"Test assignment event from README snippet"}'
+```
+
+Expected response:
+
+```json
+{
+  "status": "ok",
+  "event": {
+    "timestamp": "...",
+    "agent": "claude",
+    "action": "task_assigned",
+    "notes": "Test assignment event from README snippet"
+  }
+}
+```
+
+4. Check cockpit UI
+
+Open `http://localhost:3000` and confirm:
+
+- Assignment event appears in the navigator panel.
+- Diagram updates with a ⚡ badge on the claude node.
+
+---
+
+## Rotation Ritual (CI)
+
+The repository includes a monthly ledger rotation workflow that runs the rotation trigger and archives `logs/key_log.yml`.
+
+When configuring GitHub Actions, add the secret `COCKPIT_PUBLISH_TOKEN` (Settings → Secrets → Actions) with the same value used by your runner sidecar.
+
+The workflow injects the secret into the rotation step so rotation jobs can authenticate when posting events to the publish endpoint.
+
+If you want, we also provide a helper `scripts/rotation_trigger.ps1` and `web/src/lib/rotationTrigger.ts` for Windows and Node environments respectively.
+

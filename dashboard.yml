@@ -1,0 +1,7 @@
+dashboard:
+  panels:
+    - CONFIG_PANEL.md
+    - REPOS.md
+    - HOOK_LOG.md
+    - ALGO_COMPILER.md
+    - FILE_NAV.md

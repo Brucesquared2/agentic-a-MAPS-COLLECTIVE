@@ -1,0 +1,22 @@
+apiVersion: 1
+
+providers:
+  - name: 'cockpit-alerts'
+    orgId: 1
+    folder: 'Cockpit'
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 30
+    options:
+      path: /etc/grafana/provisioning/dashboards/alerts
+
+  - name: 'cockpit-metrics'
+    orgId: 1
+    folder: 'Cockpit Metrics'
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 30
+    options:
+      path: /etc/grafana/provisioning/dashboards/metrics

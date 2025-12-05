@@ -1,0 +1,61 @@
+# signal_routing.yml
+version: 1
+
+settings:
+  ledger_path: "logs/key_log.yml"
+
+devices:
+  - name: "3DPrinter01"
+    type: "printer"
+    connection: "usb"
+    port: "8080"
+  - name: "AutoCAD"
+    type: "software"
+    connection: "local"
+    port: "9090"
+
+routes:
+  - id: R1
+    trigger: "Capsule completion"
+    agent: "Claude Capsule"
+    repo: "AMD Drivers"
+    tasks:
+      - "Validate firmware v23.9"
+      - "Patch self-healing routine"
+    destination:
+      type: "device"
+      name: "3DPrinter01"
+      connection: "usb"
+      port: "8080"
+    outcome: "Driver validated and patched"
+
+  - id: R2
+    trigger: "Capsule completion"
+    agent: "Copilot Companion"
+    repo: "Website Creation"
+    tasks:
+      - "Generate scaffold"
+      - "Inline edit templates"
+    destination:
+      type: "software"
+      name: "AutoCAD"
+      connection: "local"
+      port: "9090"
+    outcome: "Website scaffold exported to CAD"
+
+# Example expansion - adding a new AMD GPU test rig
+  - id: R3
+    trigger: "Capsule completion"
+    agent: "AMD Drivers Agent"
+    repo: "amd-open-driver-suite"
+    tasks:
+      - "Compile driver v24.1"
+      - "Run stress test"
+    destination:
+      type: "device"
+      name: "AMD_GPU_TestRig"
+      connection: "docker"
+      port: "7070"
+    outcome: "Driver compiled and tested on GPU rig"
+
+compilation_method: "hardware"

@@ -74,3 +74,44 @@ To run the backend API and other apps, you'll need to set up:
 - GitHub app with OAuth credentials
 - Resend
 - Sentry
+
+---
+
+## Branch & Commit Guidelines
+
+We follow a simple, narratable branch and commit convention to keep repository history clear and easy to audit.
+
+- See detailed guidance in `docs/branch-naming.md` for examples and commit message style.
+
+Branch naming
+- Use the pattern: `<type>/<short-description>` where `type` is one of `feature`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`, or `rotation` and `short-description` is kebab-case.
+
+Commit messages
+- Use an emoji + type prefix, then a short imperative summary. Example:
+
+  `🧱 feat: add cockpit chat split spec`
+
+- Include a short body when helpful to explain what changed and why.
+
+Quick aliases
+- We provide a small installer script to add convenient git aliases (`scripts/git_ritual.ps1`). Run:
+
+```powershell
+pwsh ./scripts/git_ritual.ps1
+```
+
+This sets helpful aliases like `git nb` (new branch), `git cm` (commit with emoji), and `git pr` (push + open PR using `PR_BODY.md`). See `scripts/git_ritual.ps1` for details.
+
+## Rotation Workflow
+
+The monthly ledger rotation workflow automatically creates branches named `rotation/YYYY-MM` (for example, `rotation/2025-12`).
+
+- These branches are opened as pull requests with a consistent title and description using `PR_BODY.md`.
+- The workflow ensures archival PRs are narratable and audit-ready without manual naming.
+- Contributors should continue to follow the branch naming guide for all feature, fix, and docs branches.
+- Manual rotation rituals (`rotate_sunshine_ledger.ps1`, `web/src/lib/archiveLedger.ts`) remain available for local use; the workflow simply automates the cadence.
+
+✅ Outcome
+- Contributors see both manual rules (`docs/branch-naming.md`) and the automated rotation pattern.
+- Keeps lineage consistent across cockpit and CI.
+- Reinforces that automation follows the same narratable conventions as manual work.

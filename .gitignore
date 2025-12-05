@@ -58,3 +58,9 @@ out/
 .tanstack
 
 .xmcp
+
+# Persistent metrics file created at runtime
+metrics.json
+
+# Redis persistence dir
+redis-data

@@ -1,0 +1,45 @@
+{
+  "id": null,
+  "title": "Cockpit Alerts Overview",
+  "tags": ["cockpit", "alerts", "lifecycle"],
+  "timezone": "browser",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "type": "table",
+      "title": "Active vs Resolved Alerts",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "ALERTS{alertstate=\"firing\"}",
+          "legendFormat": "firing"
+        },
+        {
+          "expr": "ALERTS{alertstate=\"resolved\"}",
+          "legendFormat": "resolved"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "sortBy": [{ "displayName": "alertname", "desc": false }]
+      },
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 10 }
+    }
+  ]
+}

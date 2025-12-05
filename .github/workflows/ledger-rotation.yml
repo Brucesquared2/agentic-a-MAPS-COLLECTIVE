@@ -1,0 +1,91 @@
+name: Ledger Rotation Ritual
+
+on:
+  schedule:
+    # Run at midnight UTC on the 1st of every month
+    - cron: "0 0 1 * *"
+  workflow_dispatch: # allow manual trigger
+
+jobs:
+  rotate-ledger:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
+      - name: Run rotation trigger
+        env:
+          COCKPIT_PUBLISH_TOKEN: ${{ secrets.COCKPIT_PUBLISH_TOKEN }}
+          COCKPIT_PUBLISH_URL: http://localhost:3000/api/cockpit/publish
+        run: pnpm exec ts-node web/src/lib/rotationTrigger.ts
+
+      - name: Commit rotated ledger
+        run: |
+          git config --global user.name "cockpit-bot"
+          git config --global user.email "cockpit-bot@users.noreply.github.com"
+          git add logs/key_log.yml logs/archive/
+          git commit -m "🔄 Monthly ledger rotation: archive + reset" || echo "No changes to commit"
+          git push || echo "Push failed or no permissions"
+name: Ledger Rotation
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"   # Midnight on the 1st of each month
+
+jobs:
+  rotate-ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install deps
+        run: npm install js-yaml
+
+      - name: Rotate ledger
+        run: node web/src/lib/archiveLedger.js
+
+      - name: Compute branch name
+        id: branch
+        run: echo "BRANCH=rotation/$(date +'%Y-%m')" >> $GITHUB_ENV
+
+      - name: Commit archive
+        run: |
+          git config user.name "MDPS Bot"
+          git config user.email "mdps-bot@example.com"
+          git add Sunshine_Digital/archive/*.yml Sunshine_Digital/key_log.yml
+          git commit -m "📦 chore: monthly ledger rotation archive"
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --cached --quiet; then
+            echo "NO_CHANGES=true" >> $GITHUB_ENV
+          else
+            echo "NO_CHANGES=false" >> $GITHUB_ENV
+          fi
+
+      - name: Open PR
+        if: env.NO_CHANGES == 'false'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: ${{ env.BRANCH }}
+          title: "Monthly ledger rotation (${{ env.BRANCH }})"
+          body-file: PR_BODY.md

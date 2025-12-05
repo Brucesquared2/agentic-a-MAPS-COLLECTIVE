@@ -1,0 +1,82 @@
+{
+  "id": null,
+  "title": "Cockpit Metrics Dashboard",
+  "tags": ["cockpit", "shell-gang", "prometheus"],
+  "timezone": "browser",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "type": "gauge",
+      "title": "Active Assignments",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "cockpit_active_assignments" }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "min": 0,
+          "max": 10,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 5 },
+              { "color": "red", "value": 8 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 8 }
+    },
+    {
+      "type": "stat",
+      "title": "Completed Tasks",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "cockpit_completed_tasks" }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": { "mode": "continuous-GrYlRd" }
+        }
+      },
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 8 }
+    },
+    {
+      "type": "stat",
+      "title": "Rotations",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "cockpit_rotations" }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": { "mode": "continuous-BlPu" }
+        }
+      },
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Metrics Over Time",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "cockpit_active_assignments" },
+        { "expr": "cockpit_completed_tasks" },
+        { "expr": "cockpit_rotations" }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": { "mode": "palette-classic" }
+        }
+      },
+      "gridPos": { "x": 0, "y": 8, "w": 18, "h": 10 }
+    }
+  ]
+}

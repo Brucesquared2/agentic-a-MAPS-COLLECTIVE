@@ -1,0 +1,23 @@
+{
+  "apiVersion": 1,
+  "groups": [
+    {
+      "name": "cockpit-alerts",
+      "interval": "1m",
+      "rules": [
+        {
+          "alert": "NoCompletions24h",
+          "expr": "increase(cockpit_completed_tasks[24h]) == 0",
+          "for": "10m",
+          "labels": {
+            "severity": "critical"
+          },
+          "annotations": {
+            "summary": "No tasks completed in 24h",
+            "description": "Cockpit agents have not completed any tasks in the last 24 hours."
+          }
+        }
+      ]
+    }
+  ]
+}

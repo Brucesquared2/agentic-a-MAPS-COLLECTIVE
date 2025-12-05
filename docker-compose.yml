@@ -1,0 +1,271 @@
+version: "3.9"
+
+services:
+  copilot_navigator:
+    image: copilot/navigator:latest
+    container_name: copilot_navigator
+    restart: always
+    env_file: .env
+    environment:
+      LEDGER_PATH: ${LEDGER_PATH}
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+    ports:
+      - "3000:3000"
+
+  claude_capsule:
+    image: anthropic/claude:latest
+    container_name: claude_capsule
+    restart: always
+    env_file: .env
+    environment:
+      CLAUDE_API_KEY: ${CLAUDE_API_KEY}
+      CLAUDE_PLAN: ${CLAUDE_PLAN}
+      LEDGER_PATH: ${LEDGER_PATH}
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+    command: ["sleep", "infinity"]
+
+  claude_runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.runner
+    container_name: claude_runner
+    restart: always
+    working_dir: /app
+    env_file: .env
+    environment:
+      CLAUDE_PLAN: /app/configs/project-plan.yaml
+      COCKPIT_PUBLISH_URL: http://copilot_navigator:3000/api/cockpit/publish
+      COCKPIT_PUBLISH_TOKEN: ${COCKPIT_PUBLISH_TOKEN}
+      LEDGER_PATH: /app/logs/key_log.yml
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+      - ./scripts:/app/scripts
+    command: ["pnpm", "exec", "ts-node", "scripts/claude_runner.ts"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://copilot_navigator:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      - claude_capsule
+      - copilot_navigator
+
+  discord_bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile.discord_bridge
+    container_name: discord_bridge
+    restart: always
+    working_dir: /app
+    env_file: .env
+    environment:
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      DISCORD_CHANNEL_ID: ${DISCORD_CHANNEL_ID}
+      COCKPIT_SSE_URL: http://copilot_navigator:3000/api/cockpit/stream
+      BRIDGE_METRICS_URL: ${BRIDGE_METRICS_URL}
+    volumes:
+      - ./scripts:/app/scripts
+      - ./logs:/app/logs
+    command: ["pnpm", "exec", "ts-node", "scripts/discordBridge.ts"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://copilot_navigator:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - copilot_navigator
+
+  ollama_local:
+    image: ollama/ollama:latest
+    container_name: ollama_local
+    restart: always
+    environment:
+      LEDGER_PATH: ${LEDGER_PATH}
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+    ports:
+      - "11434:11434"
+
+  qwen_executor:
+    image: qwen/qwen:latest
+    container_name: qwen_executor
+    restart: always
+    environment:
+      LEDGER_PATH: ${LEDGER_PATH}
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+
+  deepseek_compute:
+    image: deepseek/compute:latest
+    container_name: deepseek_compute
+    restart: always
+    environment:
+      LEDGER_PATH: ${LEDGER_PATH}
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+
+  cad_integration:
+    image: cad/integration:latest
+    container_name: cad_integration
+    restart: always
+    environment:
+      LEDGER_PATH: ${LEDGER_PATH}
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+
+  amd_drivers:
+    image: amd/drivers:latest
+    container_name: amd_drivers
+    restart: always
+    environment:
+      LEDGER_PATH: ${LEDGER_PATH}
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+
+  printer_agent:
+    image: printer/3d:latest
+    container_name: printer_agent
+    restart: always
+    environment:
+      LEDGER_PATH: ${LEDGER_PATH}
+    volumes:
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+    devices:
+      - "/dev/usb:/dev/usb"
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: pushgateway
+    restart: always
+    ports:
+      - "9091:9091"
+    networks:
+      - cockpit_net
+  redis:
+    image: redis:7-alpine
+    container_name: cockpit-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - cockpit_net
+version: "3.9"
+
+services:
+  orchestrator:
+    image: ubuntu:22.04
+    container_name: cockpit-orchestrator
+    command: /bin/bash -lc "sleep infinity"
+    working_dir: /workspace
+    env_file: .env
+    volumes:
+      - ./Sunshine_Digital:/workspace/Sunshine_Digital
+      - ./CONFIG_PANEL.md:/workspace/CONFIG_PANEL.md
+      - ./REPOS.md:/workspace/REPOS.md
+      - ./HOOK_LOG.md:/workspace/HOOK_LOG.md
+      - ./ALGO_COMPILER.md:/workspace/ALGO_COMPILER.md
+      - ./FILE_NAV.md:/workspace/FILE_NAV.md
+    networks:
+      - cockpit_net
+
+  copilot_companion:
+    image: node:18
+    container_name: copilot-companion
+    command: /bin/bash -lc "sleep infinity"
+    working_dir: /app
+    env_file: .env
+    volumes:
+      - ./Sunshine_Digital:/app/Sunshine_Digital
+      - ./CONFIG_PANEL.md:/app/CONFIG_PANEL.md
+    networks:
+      - cockpit_net
+
+  claude_capsule:
+    image: node:18
+    container_name: claude-capsule
+    command: /bin/bash -lc "sleep infinity"
+    working_dir: /app
+    env_file: .env
+    volumes:
+      - ./Sunshine_Digital:/app/Sunshine_Digital
+      - ./REPOS.md:/app/REPOS.md
+      - ./HOOK_LOG.md:/app/HOOK_LOG.md
+    environment:
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+      - LEDGER_PATH=${LEDGER_PATH}
+    networks:
+      - cockpit_net
+
+  agent_3d_printing:
+    image: python:3.11
+    container_name: agent-3d-printing
+    command: /bin/bash -lc "sleep infinity"
+    working_dir: /agent
+    env_file: .env
+    volumes:
+      - ./Sunshine_Digital:/agent/Sunshine_Digital
+      - ./REPOS.md:/agent/REPOS.md
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0   # adjust to your printer device
+    networks:
+      - cockpit_net
+
+  agent_amd_drivers:
+    image: python:3.11
+    container_name: agent-amd-drivers
+    command: /bin/bash -lc "sleep infinity"
+    working_dir: /agent
+    env_file: .env
+    volumes:
+      - ./Sunshine_Digital:/agent/Sunshine_Digital
+      - ./REPOS.md:/agent/REPOS.md
+    networks:
+      - cockpit_net
+
+  agent_cad_integration:
+    image: node:18
+    container_name: agent-cad-integration
+    command: /bin/bash -lc "sleep infinity"
+    working_dir: /agent
+    env_file: .env
+    volumes:
+      - ./Sunshine_Digital:/agent/Sunshine_Digital
+      - ./REPOS.md:/agent/REPOS.md
+    networks:
+      - cockpit_net
+
+volumes:
+  repos_full:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/external/REPO_10TB
+  repos_offline:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/external/PRIVATE_REPOS_2TB
+  use_kits:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/external/WAFER_KITS_2TB
+
+networks:
+  cockpit_net:
+    driver: bridge

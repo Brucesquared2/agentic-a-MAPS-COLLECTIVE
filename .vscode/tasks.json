@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Send workload to cockpit",
+      "type": "shell",
+      "command": "curl -X POST http://localhost:3000/api/cockpit/publish -H \"Content-Type: application/json\" -H \"x-publish-token:${env:COCKPIT_PUBLISH_TOKEN}\" -d '{\"agent\":\"vscode\",\"action\":\"task_assigned\",\"notes\":\"Dispatched workload from VS Code\"}'",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Orchestration (project-plan.yaml)",
+      "type": "shell",
+      "command": "pnpm exec ts-node scripts/orchestrator.ts project-plan.yaml",
+      "problemMatcher": []
+    }
+  ]
+}

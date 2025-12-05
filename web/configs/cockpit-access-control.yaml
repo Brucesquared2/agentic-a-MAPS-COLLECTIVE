@@ -1,0 +1,22 @@
+# Runtime cockpit access config (consumed by navigator loader)
+invocation_log_path: ../../logs/key_log.yml
+access:
+  copilot:
+    method: oauth
+    persistence: true
+    scope: navigator_panel
+
+  claude:
+    method: anthropic_api_key
+    persistence: false
+    scope: capsule_window
+
+  ollama:
+    method: local_server_token
+    persistence: false
+    scope: capsule_window
+
+  demucs:
+    method: python_env
+    persistence: false
+    scope: capsule_window

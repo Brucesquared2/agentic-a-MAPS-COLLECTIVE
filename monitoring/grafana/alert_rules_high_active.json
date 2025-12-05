@@ -1,0 +1,23 @@
+{
+  "apiVersion": 1,
+  "groups": [
+    {
+      "name": "cockpit-alerts",
+      "interval": "1m",
+      "rules": [
+        {
+          "alert": "HighActiveAssignments",
+          "expr": "cockpit_active_assignments > 8",
+          "for": "5m",
+          "labels": {
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Active assignments exceed safe threshold",
+            "description": "Cockpit has more than 8 active assignments for over 5 minutes."
+          }
+        }
+      ]
+    }
+  ]
+}

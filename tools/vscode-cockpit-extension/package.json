@@ -1,0 +1,24 @@
+{
+  "name": "vscode-cockpit-extension",
+  "displayName": "Cockpit Workload Bridge",
+  "publisher": "bruce",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onCommand:cockpit.sendWorkload"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "cockpit.sendWorkload",
+        "title": "Send workload to cockpit"
+      }
+    ]
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}

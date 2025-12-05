@@ -1,0 +1,17 @@
+FROM node:20-bullseye
+
+# Enable corepack (pnpm) and install ts-node globally
+RUN corepack enable && \
+    npm install -g ts-node && \
+    apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy only package files first for caching
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+# Copy the rest of the repo
+COPY . .
+
+CMD ["pnpm", "exec", "ts-node", "scripts/discordBridge.ts"]
