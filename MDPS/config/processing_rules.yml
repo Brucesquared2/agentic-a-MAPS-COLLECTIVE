@@ -7,12 +7,12 @@ global:
     allowed_encodings: [utf-8, ascii]
     max_file_size: 100MB
     require_header: true
-  
+
   transformations:
     normalize_whitespace: true
     standardize_line_endings: unix
     strip_bom: true
-  
+
   naming:
     case: snake_case
     pattern: "^[a-z0-9_-]+$"
@@ -22,34 +22,34 @@ global:
 domains:
   domain_a:
     description: "Primary domain for core brain files"
-    
+
     validation:
       required_fields: [id, timestamp, source, content]
       content_types: [text/plain, application/json, text/yaml]
       schema_validation: strict
-    
+
     transformations:
       - type: normalize_headers
         config:
           format: yaml
           required_keys: [version, author, date]
-      
+
       - type: apply_metadata
         config:
-          inject: 
+          inject:
             domain: domain_a
             processed_by: mdps_omnicore
-      
+
       - type: validate_references
         config:
           check_broken_links: true
           resolve_relative_paths: true
-    
+
     archival:
       compression: gzip
       checksum_algorithm: sha256
       retention_days: 365
-    
+
     lineage:
       track_source: true
       track_transformations: true
@@ -57,29 +57,29 @@ domains:
 
   domain_b:
     description: "Secondary domain for auxiliary brain files"
-    
+
     validation:
       required_fields: [id, content]
       content_types: [text/plain, application/json]
       schema_validation: relaxed
-    
+
     transformations:
       - type: normalize_headers
         config:
           format: json
           optional_keys: [version, tags]
-      
+
       - type: apply_metadata
         config:
           inject:
             domain: domain_b
             processed_by: mdps_omnicore
-    
+
     archival:
       compression: none
       checksum_algorithm: md5
       retention_days: 180
-    
+
     lineage:
       track_source: true
       track_transformations: false
@@ -87,35 +87,35 @@ domains:
 
   shared:
     description: "Cross-domain shared resources"
-    
+
     validation:
       required_fields: [id, type, content]
       content_types: [text/plain, application/json, text/yaml, text/markdown]
       schema_validation: strict
-    
+
     transformations:
       - type: normalize_headers
         config:
           format: yaml
           required_keys: [version, shared_with, purpose]
-      
+
       - type: apply_metadata
         config:
           inject:
             domain: shared
             processed_by: mdps_omnicore
             accessibility: cross_domain
-      
+
       - type: validate_dependencies
         config:
           check_references: true
           ensure_availability: true
-    
+
     archival:
       compression: gzip
       checksum_algorithm: sha256
       retention_days: 730
-    
+
     lineage:
       track_source: true
       track_transformations: true
@@ -133,7 +133,7 @@ quality:
         - no_corruption
         - valid_encoding
         - complete_headers
-    
+
     - name: metadata_completeness
       enabled: true
       fail_on_error: false
@@ -141,24 +141,24 @@ quality:
         - all_required_fields
         - valid_timestamps
         - proper_versioning
-    
+
     - name: reference_validity
       enabled: true
       fail_on_error: false
       checks:
         - no_broken_links
         - resolvable_dependencies
-  
+
   # Quality metrics
   metrics:
     - name: processing_success_rate
       threshold: 95
       alert_on_below: true
-    
+
     - name: validation_failure_rate
       threshold: 5
       alert_on_above: true
-    
+
     - name: transformation_duration_p95
       threshold: 10s
       alert_on_above: true

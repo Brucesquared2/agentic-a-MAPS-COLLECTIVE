@@ -8,7 +8,7 @@ routes:
     priority: high
     timeout: 300s
     fallback: copilot_companion
-  
+
   # Code generation and scaffolding
   - task_type: code_generation
     description: "Scaffold code, inline editing, reproducible workflows"
@@ -16,7 +16,7 @@ routes:
     priority: high
     timeout: 180s
     fallback: null
-  
+
   # Code review and quality checks
   - task_type: code_review
     description: "Code-level reviews and quality checks"
@@ -24,7 +24,7 @@ routes:
     priority: medium
     timeout: 120s
     fallback: null
-  
+
   # Local model inference
   - task_type: analysis
     description: "Local model hosting and inference tasks"
@@ -32,7 +32,7 @@ routes:
     priority: medium
     timeout: 240s
     fallback: null
-  
+
   # File system operations
   - task_type: file_operations
     description: "File system mastery and runtime configuration"
@@ -40,7 +40,7 @@ routes:
     priority: high
     timeout: 180s
     fallback: deepseek
-  
+
   # Specialized indexing
   - task_type: indexing
     description: "Specialized indexing and search operations"
@@ -48,7 +48,7 @@ routes:
     priority: medium
     timeout: 240s
     fallback: qwen_2_5_b7
-  
+
   # Batch transformations
   - task_type: batch_transform
     description: "Normalize headers, metadata, naming conventions"
@@ -56,7 +56,7 @@ routes:
     priority: high
     timeout: 600s
     fallback: null
-  
+
   # Integration hooks
   - task_type: integration
     description: "External API connections, data pulls"
@@ -75,13 +75,13 @@ health_checks:
 coordination:
   # Maximum parallel agent invocations
   max_parallel: 5
-  
+
   # How to handle agent failures
   failure_policy: fallback_then_retry
-  
+
   # Result aggregation strategy
   aggregation: sequential
-  
+
   # Inter-agent communication
   communication:
     protocol: http
