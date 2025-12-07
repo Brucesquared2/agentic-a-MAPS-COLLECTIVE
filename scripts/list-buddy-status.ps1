@@ -18,16 +18,18 @@ if (-not (Test-Path "REPAIR_STATUS.md")) {
 }
 
 # Count total items
-$totalMatches = Select-String -Path "STATUS_CHECKLIST.md" -Pattern "^\- \[ \]" -AllMatches
-$totalItems = if ($totalMatches) { $totalMatches.Matches.Count } else { 0 }
+$uncheckedMatches = Select-String -Path "STATUS_CHECKLIST.md" -Pattern "^\- \[ \]" -AllMatches
+$uncheckedItems = if ($uncheckedMatches) { $uncheckedMatches.Matches.Count } else { 0 }
 
 $completedMatches = Select-String -Path "STATUS_CHECKLIST.md" -Pattern "^\- \[x\]" -AllMatches
 $completedItems = if ($completedMatches) { $completedMatches.Matches.Count } else { 0 }
 
+$totalItems = $uncheckedItems + $completedItems
+
 Write-Host "📊 Overall Progress:" -ForegroundColor Green
 Write-Host "   Total Items: $totalItems"
 Write-Host "   Completed: $completedItems"
-Write-Host "   Remaining: $($totalItems - $completedItems)"
+Write-Host "   Remaining: $uncheckedItems"
 Write-Host ""
 
 # Count by priority

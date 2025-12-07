@@ -20,18 +20,19 @@ fi
 
 # Count total items (set +e temporarily to handle grep returning 0)
 set +e
-TOTAL_ITEMS=$(grep -c "^\- \[ \]" STATUS_CHECKLIST.md 2>/dev/null)
+UNCHECKED_ITEMS=$(grep -c "^\- \[ \]" STATUS_CHECKLIST.md 2>/dev/null)
 COMPLETED_ITEMS=$(grep -c "^\- \[x\]" STATUS_CHECKLIST.md 2>/dev/null)
 set -e
 
 # Default to 0 if empty
-TOTAL_ITEMS=${TOTAL_ITEMS:-0}
+UNCHECKED_ITEMS=${UNCHECKED_ITEMS:-0}
 COMPLETED_ITEMS=${COMPLETED_ITEMS:-0}
+TOTAL_ITEMS=$((UNCHECKED_ITEMS + COMPLETED_ITEMS))
 
 echo "📊 Overall Progress:"
 echo "   Total Items: $TOTAL_ITEMS"
 echo "   Completed: $COMPLETED_ITEMS"
-echo "   Remaining: $((TOTAL_ITEMS - COMPLETED_ITEMS))"
+echo "   Remaining: $UNCHECKED_ITEMS"
 echo ""
 
 # Count by priority
