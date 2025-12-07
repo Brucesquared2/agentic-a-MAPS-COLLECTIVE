@@ -22,6 +22,8 @@ class ManifestValidator:
     
     def validate_signal_routing(self, manifest_path: Path) -> bool:
         """Validate signal_routing.yml schema."""
+        initial_error_count = len(self.errors)
+        
         try:
             with open(manifest_path, 'r') as f:
                 data = yaml.safe_load(f)
@@ -60,7 +62,7 @@ class ManifestValidator:
                         if 'type' not in dest or 'name' not in dest:
                             self.errors.append(f"{manifest_path}: Route {idx} destination incomplete")
             
-            return len(self.errors) == 0
+            return len(self.errors) == initial_error_count
             
         except yaml.YAMLError as e:
             self.errors.append(f"{manifest_path}: YAML parse error: {e}")
@@ -71,6 +73,8 @@ class ManifestValidator:
     
     def validate_agents(self, manifest_path: Path) -> bool:
         """Validate AGENTS.yml schema."""
+        initial_error_count = len(self.errors)
+        
         try:
             with open(manifest_path, 'r') as f:
                 data = yaml.safe_load(f)
@@ -85,7 +89,7 @@ class ManifestValidator:
                     if field not in agent:
                         self.errors.append(f"{manifest_path}: Agent {idx} missing '{field}'")
             
-            return len(self.errors) == 0
+            return len(self.errors) == initial_error_count
             
         except yaml.YAMLError as e:
             self.errors.append(f"{manifest_path}: YAML parse error: {e}")
@@ -96,6 +100,9 @@ class ManifestValidator:
     
     def validate_dashboard(self, manifest_path: Path) -> bool:
         """Validate dashboard.yml schema."""
+        initial_error_count = len(self.errors)
+        initial_warning_count = len(self.warnings)
+        
         try:
             with open(manifest_path, 'r') as f:
                 data = yaml.safe_load(f)
@@ -114,7 +121,7 @@ class ManifestValidator:
                 if not panel_path.exists():
                     self.warnings.append(f"{manifest_path}: Panel file not found: {panel}")
             
-            return len(self.errors) == 0
+            return len(self.errors) == initial_error_count
             
         except yaml.YAMLError as e:
             self.errors.append(f"{manifest_path}: YAML parse error: {e}")
