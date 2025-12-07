@@ -6,9 +6,23 @@ Write-Host "  List Buddy - Status Report" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 
+# Check if required files exist
+if (-not (Test-Path "STATUS_CHECKLIST.md")) {
+    Write-Host "❌ Error: STATUS_CHECKLIST.md not found" -ForegroundColor Red
+    exit 1
+}
+
+if (-not (Test-Path "REPAIR_STATUS.md")) {
+    Write-Host "❌ Error: REPAIR_STATUS.md not found" -ForegroundColor Red
+    exit 1
+}
+
 # Count total items
-$totalItems = (Select-String -Path "STATUS_CHECKLIST.md" -Pattern "^\- \[ \]" -AllMatches).Matches.Count
-$completedItems = (Select-String -Path "STATUS_CHECKLIST.md" -Pattern "^\- \[x\]" -AllMatches).Matches.Count
+$totalMatches = Select-String -Path "STATUS_CHECKLIST.md" -Pattern "^\- \[ \]" -AllMatches
+$totalItems = if ($totalMatches) { $totalMatches.Matches.Count } else { 0 }
+
+$completedMatches = Select-String -Path "STATUS_CHECKLIST.md" -Pattern "^\- \[x\]" -AllMatches
+$completedItems = if ($completedMatches) { $completedMatches.Matches.Count } else { 0 }
 
 Write-Host "📊 Overall Progress:" -ForegroundColor Green
 Write-Host "   Total Items: $totalItems"
@@ -17,9 +31,14 @@ Write-Host "   Remaining: $($totalItems - $completedItems)"
 Write-Host ""
 
 # Count by priority
-$critical = (Select-String -Path "REPAIR_STATUS.md" -Pattern "🔴" -AllMatches).Matches.Count
-$high = (Select-String -Path "REPAIR_STATUS.md" -Pattern "🟡" -AllMatches).Matches.Count
-$medium = (Select-String -Path "REPAIR_STATUS.md" -Pattern "🟢" -AllMatches).Matches.Count
+$criticalMatches = Select-String -Path "REPAIR_STATUS.md" -Pattern "🔴" -AllMatches
+$critical = if ($criticalMatches) { $criticalMatches.Matches.Count } else { 0 }
+
+$highMatches = Select-String -Path "REPAIR_STATUS.md" -Pattern "🟡" -AllMatches
+$high = if ($highMatches) { $highMatches.Matches.Count } else { 0 }
+
+$mediumMatches = Select-String -Path "REPAIR_STATUS.md" -Pattern "🟢" -AllMatches
+$medium = if ($mediumMatches) { $mediumMatches.Matches.Count } else { 0 }
 
 Write-Host "🎯 Priority Breakdown:" -ForegroundColor Yellow
 Write-Host "   🔴 Critical: $critical items"
