@@ -190,6 +190,10 @@ cat STATUS_CHECKLIST.md
 # View detailed status
 cat REPAIR_STATUS.md
 
+# Run status report (shows progress summary)
+bash scripts/list-buddy-status.sh      # Unix/Linux/Mac
+pwsh scripts/list-buddy-status.ps1     # Windows PowerShell
+
 # Start working on next item
 # 1. Pick unchecked item from STATUS_CHECKLIST.md
 # 2. Read details in REPAIR_STATUS.md

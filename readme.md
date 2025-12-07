@@ -57,8 +57,10 @@ Track and manage the 34 core items that need attention across the repository:
 
 **Quick Commands:**
 ```bash
-cat STATUS_CHECKLIST.md     # View quick status
-cat REPAIR_STATUS.md         # View detailed status with context
+cat STATUS_CHECKLIST.md                # View quick status
+cat REPAIR_STATUS.md                   # View detailed status with context
+bash scripts/list-buddy-status.sh      # Show progress report (Unix/Mac)
+pwsh scripts/list-buddy-status.ps1     # Show progress report (Windows)
 ```
 
 List Buddy helps you:
