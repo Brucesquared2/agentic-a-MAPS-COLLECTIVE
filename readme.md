@@ -47,6 +47,26 @@ No more guessing whether failures are network, validation, or secrets.
 
 README becomes a cockpit manual: health signals + remedies in one place.
 
+## 📋 List Buddy - Status Tracking
+
+Track and manage the 34 core items that need attention across the repository:
+
+- **[STATUS_CHECKLIST.md](STATUS_CHECKLIST.md)** - Quick checklist format for daily tracking
+- **[REPAIR_STATUS.md](REPAIR_STATUS.md)** - Detailed status with context and actions
+- **[LIST_BUDDY_GUIDE.md](LIST_BUDDY_GUIDE.md)** - Complete guide for using the tracking system
+
+**Quick Commands:**
+```bash
+cat STATUS_CHECKLIST.md     # View quick status
+cat REPAIR_STATUS.md         # View detailed status with context
+```
+
+List Buddy helps you:
+- ✅ Track 34 prioritized repair/feature items
+- 📊 Monitor progress across infrastructure, security, features, UI/UX, and DevOps
+- 🎯 Identify critical, high, and medium priority work
+- 🚀 Coordinate team efforts with clear status indicators
+
 # Agentic <!-- omit from toc -->
 
 You can think of Agentic as **RapidAPI for LLM tools**.
