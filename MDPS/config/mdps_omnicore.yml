@@ -21,7 +21,7 @@ mdps_omnicore:
   ledger:
     path: Sunshine_Digital/key_log.yml
     rotation: monthly
-    retention: 12m
+    retention_months: 12
     format: yaml
     narratable: true
 

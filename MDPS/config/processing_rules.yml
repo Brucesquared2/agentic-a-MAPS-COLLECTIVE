@@ -5,7 +5,7 @@ global:
   validation:
     check_encoding: true
     allowed_encodings: [utf-8, ascii]
-    max_file_size: 100MB
+    max_file_size_bytes: 104857600  # 100 MiB
     require_header: true
 
   transformations:
@@ -160,7 +160,7 @@ quality:
       alert_on_above: true
 
     - name: transformation_duration_p95
-      threshold: 10s
+      threshold_seconds: 10
       alert_on_above: true
 
 # Batch processing configuration
