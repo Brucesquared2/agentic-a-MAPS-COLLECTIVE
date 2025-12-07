@@ -1,0 +1,69 @@
+mdps_omnicore:
+  # Brain file management
+  brain_sources:
+    - path: MDPS/brain/
+      scan_interval: 5m
+      auto_stage: true
+      domains:
+        - domain_a
+        - domain_b
+        - shared
+  
+  # Agent coordination
+  agent_routes:
+    planning: claude_capsule
+    code_gen: copilot_companion
+    analysis: ollama_local
+    file_ops: qwen_2_5_b7
+    indexing: deepseek
+  
+  # Logging and lineage
+  ledger:
+    path: Sunshine_Digital/key_log.yml
+    rotation: monthly
+    retention: 12m
+    format: yaml
+    narratable: true
+  
+  # Processing rules
+  domains:
+    - name: domain_a
+      description: "Primary domain for core brain files"
+      rules: MDPS/config/processing_rules.yml
+      priority: high
+      validation: strict
+    
+    - name: domain_b
+      description: "Secondary domain for auxiliary brain files"
+      rules: MDPS/config/processing_rules.yml
+      priority: medium
+      validation: relaxed
+    
+    - name: shared
+      description: "Cross-domain shared resources"
+      rules: MDPS/config/processing_rules.yml
+      priority: high
+      validation: strict
+  
+  # Archive settings
+  archive:
+    base_path: Sunshine_Digital/archive/
+    structure: domain_based
+    compression: false
+    checksums: true
+  
+  # Monitoring
+  monitoring:
+    enabled: true
+    prometheus_port: 9090
+    grafana_dashboard: mdps-omnicore
+    alert_channels:
+      - console
+      - key_log
+  
+  # Performance tuning
+  performance:
+    max_concurrent_agents: 5
+    batch_size: 100
+    timeout_seconds: 300
+    retry_attempts: 3

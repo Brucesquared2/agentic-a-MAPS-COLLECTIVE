@@ -1,0 +1,43 @@
+# Example Brain File for Domain A
+# This file demonstrates the expected format for MDPS-OmniCore brain files
+
+version: "1.0"
+author: "mdps_system"
+date: "2025-12-07"
+
+# Required fields for domain_a
+id: "brain_example_001"
+timestamp: "2025-12-07T13:07:00Z"
+source: "documentation"
+
+# Brain content
+content: |
+  This is an example brain file for MDPS-OmniCore domain_a processing.
+  
+  Brain files can contain:
+  - Processing instructions
+  - Data transformation rules
+  - Agent coordination directives
+  - Domain-specific metadata
+  
+  When this file is processed by MDPS-OmniCore:
+  1. It will be validated against domain_a rules
+  2. Headers will be normalized
+  3. Metadata will be injected (domain, processed_by)
+  4. References will be validated
+  5. File will be staged to Sunshine_Digital/archive/domain_a/
+  6. Operation will be logged to key_log.yml with narrative
+  
+  Expected narrative:
+  "📥 import: brain_example_001.yml fossilized at 2025-12-07T13:07:00Z"
+
+# Additional metadata
+tags:
+  - example
+  - documentation
+  - domain_a
+
+processing_hints:
+  priority: normal
+  validation: strict
+  transformation: standard

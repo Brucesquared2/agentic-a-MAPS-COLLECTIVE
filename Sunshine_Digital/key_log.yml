@@ -1,0 +1,21 @@
+# MDPS-OmniCore Operation Ledger
+
+# This file tracks all MDPS-OmniCore operations for auditability and lineage
+# Format: append-only YAML
+# Rotation: monthly via ledger-rotation.yml workflow
+# Retention: 12 months
+
+metadata:
+  ledger_version: "1.0"
+  created_at: "2025-12-07T13:07:00Z"
+  managed_by: "mdps_omnicore"
+  rotation_policy: "monthly"
+  retention_months: 12
+
+entries:
+  - timestamp: "2025-12-07T13:07:00Z"
+    event: "ledger_initialized"
+    agent: "mdps_omnicore"
+    description: "Key log initialized for MDPS-OmniCore operations"
+    narrative: "📋 ledger: MDPS-OmniCore operation tracking begins"
+    status: "success"
