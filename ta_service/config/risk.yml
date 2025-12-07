@@ -1,0 +1,54 @@
+version: '1.0'
+generated_at: '2025-12-07T13:13:29.568134Z'
+policies:
+- id: RISK_R1
+  source: signal_routing.yml
+  trigger: Capsule completion
+  agent: Claude Capsule
+  repo: AMD Drivers
+  risk_level: high
+  mitigation: Validate Claude Capsule outputs before sending to 3DPrinter01
+- id: RISK_R2
+  source: signal_routing.yml
+  trigger: Capsule completion
+  agent: Copilot Companion
+  repo: Website Creation
+  risk_level: medium
+  mitigation: Validate Copilot Companion outputs before sending to AutoCAD
+- id: RISK_R3
+  source: signal_routing.yml
+  trigger: Capsule completion
+  agent: AMD Drivers Agent
+  repo: amd-open-driver-suite
+  risk_level: high
+  mitigation: Validate AMD Drivers Agent outputs before sending to AMD_GPU_TestRig
+- id: RISK_AGENT_COPILOT_COMPANION
+  source: AGENTS.yml
+  agent: Copilot Companion
+  weaknesses: No direct hardware control
+  risk_level: medium
+  mitigation: Monitor Copilot Companion operations and validate outputs
+- id: RISK_AGENT_CLAUDE_CAPSULE
+  source: AGENTS.yml
+  agent: Claude Capsule
+  weaknesses: Transient, requires explicit invocation
+  risk_level: medium
+  mitigation: Monitor Claude Capsule operations and validate outputs
+- id: RISK_AGENT_OLLAMA_LOCAL
+  source: AGENTS.yml
+  agent: Ollama Local
+  weaknesses: Model size and hardware constrained
+  risk_level: medium
+  mitigation: Monitor Ollama Local operations and validate outputs
+- id: RISK_AGENT_QWEN_2.5_B7
+  source: AGENTS.yml
+  agent: Qwen 2.5 b7
+  weaknesses: Context window limits
+  risk_level: medium
+  mitigation: Monitor Qwen 2.5 b7 operations and validate outputs
+- id: RISK_AGENT_DEEPSEEK
+  source: AGENTS.yml
+  agent: DeepSeek
+  weaknesses: Specialized indexing required
+  risk_level: medium
+  mitigation: Monitor DeepSeek operations and validate outputs
