@@ -10,14 +10,14 @@ export interface LedgerEntry {
 }
 
 export function loadLedger(
-  logFile: string = path.resolve(process.cwd(), "logs/key_log.yml")
+  logFile: string = path.resolve(process.cwd(), 'logs/key_log.yml')
 ): LedgerEntry[] {
   try {
-    const fileContents = fs.readFileSync(logFile, "utf8")
+    const fileContents = fs.readFileSync(logFile, 'utf8')
     const data = yaml.load(fileContents) as LedgerEntry[]
     return Array.isArray(data) ? data : []
   } catch (err) {
-    console.error("⚠️ Failed to load ledger:", err)
+    console.error('⚠️ Failed to load ledger:', err)
     return []
   }
 }
