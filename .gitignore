@@ -64,3 +64,4 @@ metrics.json
 
 # Redis persistence dir
 redis-data
+__pycache__/
