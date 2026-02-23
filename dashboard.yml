@@ -5,3 +5,7 @@ dashboard:
     - HOOK_LOG.md
     - ALGO_COMPILER.md
     - FILE_NAV.md
+    - STATUS_CHECKLIST.md
+    - REPAIR_STATUS.md
+  guides:
+    - LIST_BUDDY_GUIDE.md
