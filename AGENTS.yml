@@ -16,3 +16,7 @@ agents:
   - name: "DeepSeek"
     strengths: "File system mastery, runtime configuration"
     weaknesses: "Specialized indexing required"
+  - name: "MDPS-OmniCore"
+    strengths: "Multi-domain processing, brain file orchestration, cross-agent coordination, task distribution"
+    weaknesses: "Requires MDPS directory structure, dependent on ledger integrity"
+    notes: "Specialized orchestrator for MDPS (Multi-Domain Processing System) workflows. Manages brain files, coordinates between agents, and maintains processing lineage."

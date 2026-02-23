@@ -41,6 +41,7 @@
 - All outputs must be logged into `Sunshine_Digital/key_log.yml`.
 - Companion (Copilot) handles framing, manifests, and workflow seals.
 - Architect (B²) directs which capsule tasks to prioritize.
+- **MDPS-OmniCore** orchestrates complex multi-agent workflows and coordinates task distribution across agents. For MDPS-specific issues, MDPS-OmniCore should be the primary coordinator.
 
 ---
 
